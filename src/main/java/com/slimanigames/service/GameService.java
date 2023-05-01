@@ -84,11 +84,11 @@ public class GameService extends GameServiceGrpc.GameServiceImplBase {
             public void onCompleted() {
                 // Terminate session with users
                 userList.forEach((user, streamObserver) -> {
-
+                    streamObserver.onCompleted();
                 });
 
                 // Clear the list of users
-                // TODO: 01/05/2023 clear the list of users
+                userList.clear();
 
                 // Generate a new number
                 number = (int)(Math.random()*1000);
