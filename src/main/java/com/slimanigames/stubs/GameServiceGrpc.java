@@ -59,6 +59,38 @@ public final class GameServiceGrpc {
      return getSessionMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.slimanigames.stubs.Game.Empty,
+      com.slimanigames.stubs.Game.Empty> getBlablaMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "blabla",
+      requestType = com.slimanigames.stubs.Game.Empty.class,
+      responseType = com.slimanigames.stubs.Game.Empty.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.slimanigames.stubs.Game.Empty,
+      com.slimanigames.stubs.Game.Empty> getBlablaMethod() {
+    io.grpc.MethodDescriptor<com.slimanigames.stubs.Game.Empty, com.slimanigames.stubs.Game.Empty> getBlablaMethod;
+    if ((getBlablaMethod = GameServiceGrpc.getBlablaMethod) == null) {
+      synchronized (GameServiceGrpc.class) {
+        if ((getBlablaMethod = GameServiceGrpc.getBlablaMethod) == null) {
+          GameServiceGrpc.getBlablaMethod = getBlablaMethod = 
+              io.grpc.MethodDescriptor.<com.slimanigames.stubs.Game.Empty, com.slimanigames.stubs.Game.Empty>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "GameService", "blabla"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.slimanigames.stubs.Game.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.slimanigames.stubs.Game.Empty.getDefaultInstance()))
+                  .setSchemaDescriptor(new GameServiceMethodDescriptorSupplier("blabla"))
+                  .build();
+          }
+        }
+     }
+     return getBlablaMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -93,6 +125,13 @@ public final class GameServiceGrpc {
       return asyncUnimplementedStreamingCall(getSessionMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void blabla(com.slimanigames.stubs.Game.Empty request,
+        io.grpc.stub.StreamObserver<com.slimanigames.stubs.Game.Empty> responseObserver) {
+      asyncUnimplementedUnaryCall(getBlablaMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -102,6 +141,13 @@ public final class GameServiceGrpc {
                 com.slimanigames.stubs.Game.request,
                 com.slimanigames.stubs.Game.response>(
                   this, METHODID_SESSION)))
+          .addMethod(
+            getBlablaMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.slimanigames.stubs.Game.Empty,
+                com.slimanigames.stubs.Game.Empty>(
+                  this, METHODID_BLABLA)))
           .build();
     }
   }
@@ -131,6 +177,14 @@ public final class GameServiceGrpc {
       return asyncBidiStreamingCall(
           getChannel().newCall(getSessionMethod(), getCallOptions()), responseObserver);
     }
+
+    /**
+     */
+    public void blabla(com.slimanigames.stubs.Game.Empty request,
+        io.grpc.stub.StreamObserver<com.slimanigames.stubs.Game.Empty> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBlablaMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -149,6 +203,13 @@ public final class GameServiceGrpc {
     protected GameServiceBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new GameServiceBlockingStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public com.slimanigames.stubs.Game.Empty blabla(com.slimanigames.stubs.Game.Empty request) {
+      return blockingUnaryCall(
+          getChannel(), getBlablaMethod(), getCallOptions(), request);
     }
   }
 
@@ -169,9 +230,18 @@ public final class GameServiceGrpc {
         io.grpc.CallOptions callOptions) {
       return new GameServiceFutureStub(channel, callOptions);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.slimanigames.stubs.Game.Empty> blabla(
+        com.slimanigames.stubs.Game.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBlablaMethod(), getCallOptions()), request);
+    }
   }
 
-  private static final int METHODID_SESSION = 0;
+  private static final int METHODID_BLABLA = 0;
+  private static final int METHODID_SESSION = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -190,6 +260,10 @@ public final class GameServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_BLABLA:
+          serviceImpl.blabla((com.slimanigames.stubs.Game.Empty) request,
+              (io.grpc.stub.StreamObserver<com.slimanigames.stubs.Game.Empty>) responseObserver);
+          break;
         default:
           throw new AssertionError();
       }
@@ -255,6 +329,7 @@ public final class GameServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new GameServiceFileDescriptorSupplier())
               .addMethod(getSessionMethod())
+              .addMethod(getBlablaMethod())
               .build();
         }
       }

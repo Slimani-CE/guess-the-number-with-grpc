@@ -15,14 +15,118 @@ public final class Game {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
+   * Protobuf enum {@code RequestType}
+   */
+  public enum RequestType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>NEW_USER = 0;</code>
+     */
+    NEW_USER(0),
+    /**
+     * <code>GUESSING_NUMBER = 1;</code>
+     */
+    GUESSING_NUMBER(1),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>NEW_USER = 0;</code>
+     */
+    public static final int NEW_USER_VALUE = 0;
+    /**
+     * <code>GUESSING_NUMBER = 1;</code>
+     */
+    public static final int GUESSING_NUMBER_VALUE = 1;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static RequestType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static RequestType forNumber(int value) {
+      switch (value) {
+        case 0: return NEW_USER;
+        case 1: return GUESSING_NUMBER;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        RequestType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
+            public RequestType findValueByNumber(int number) {
+              return RequestType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.slimanigames.stubs.Game.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final RequestType[] VALUES = values();
+
+    public static RequestType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private RequestType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:RequestType)
+  }
+
+  /**
    * Protobuf enum {@code ResponseType}
    */
   public enum ResponseType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>YOU_WIN = 0;</code>
+     * <code>WELCOME = 0;</code>
      */
-    YOU_WIN(0),
+    WELCOME(0),
     /**
      * <code>GAME_IS_OVER = 1;</code>
      */
@@ -31,13 +135,17 @@ public final class Game {
      * <code>YOU_MISSED_THE_NUMBER = 2;</code>
      */
     YOU_MISSED_THE_NUMBER(2),
+    /**
+     * <code>YOU_WIN = 3;</code>
+     */
+    YOU_WIN(3),
     UNRECOGNIZED(-1),
     ;
 
     /**
-     * <code>YOU_WIN = 0;</code>
+     * <code>WELCOME = 0;</code>
      */
-    public static final int YOU_WIN_VALUE = 0;
+    public static final int WELCOME_VALUE = 0;
     /**
      * <code>GAME_IS_OVER = 1;</code>
      */
@@ -46,6 +154,10 @@ public final class Game {
      * <code>YOU_MISSED_THE_NUMBER = 2;</code>
      */
     public static final int YOU_MISSED_THE_NUMBER_VALUE = 2;
+    /**
+     * <code>YOU_WIN = 3;</code>
+     */
+    public static final int YOU_WIN_VALUE = 3;
 
 
     public final int getNumber() {
@@ -72,9 +184,10 @@ public final class Game {
      */
     public static ResponseType forNumber(int value) {
       switch (value) {
-        case 0: return YOU_WIN;
+        case 0: return WELCOME;
         case 1: return GAME_IS_OVER;
         case 2: return YOU_MISSED_THE_NUMBER;
+        case 3: return YOU_WIN;
         default: return null;
       }
     }
@@ -101,7 +214,7 @@ public final class Game {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.slimanigames.stubs.Game.getDescriptor().getEnumTypes().get(0);
+      return com.slimanigames.stubs.Game.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final ResponseType[] VALUES = values();
@@ -148,6 +261,17 @@ public final class Game {
      * @return The guessedNumber.
      */
     int getGuessedNumber();
+
+    /**
+     * <code>.RequestType requestType = 3;</code>
+     * @return The enum numeric value on the wire for requestType.
+     */
+    int getRequestTypeValue();
+    /**
+     * <code>.RequestType requestType = 3;</code>
+     * @return The requestType.
+     */
+    com.slimanigames.stubs.Game.RequestType getRequestType();
   }
   /**
    * Protobuf type {@code request}
@@ -163,6 +287,7 @@ public final class Game {
     }
     private request() {
       userName_ = "";
+      requestType_ = 0;
     }
 
     @java.lang.Override
@@ -204,6 +329,12 @@ public final class Game {
             case 16: {
 
               guessedNumber_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+
+              requestType_ = rawValue;
               break;
             }
             default: {
@@ -284,6 +415,25 @@ public final class Game {
       return guessedNumber_;
     }
 
+    public static final int REQUESTTYPE_FIELD_NUMBER = 3;
+    private int requestType_;
+    /**
+     * <code>.RequestType requestType = 3;</code>
+     * @return The enum numeric value on the wire for requestType.
+     */
+    public int getRequestTypeValue() {
+      return requestType_;
+    }
+    /**
+     * <code>.RequestType requestType = 3;</code>
+     * @return The requestType.
+     */
+    public com.slimanigames.stubs.Game.RequestType getRequestType() {
+      @SuppressWarnings("deprecation")
+      com.slimanigames.stubs.Game.RequestType result = com.slimanigames.stubs.Game.RequestType.valueOf(requestType_);
+      return result == null ? com.slimanigames.stubs.Game.RequestType.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -304,6 +454,9 @@ public final class Game {
       if (guessedNumber_ != 0) {
         output.writeInt32(2, guessedNumber_);
       }
+      if (requestType_ != com.slimanigames.stubs.Game.RequestType.NEW_USER.getNumber()) {
+        output.writeEnum(3, requestType_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -319,6 +472,10 @@ public final class Game {
       if (guessedNumber_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, guessedNumber_);
+      }
+      if (requestType_ != com.slimanigames.stubs.Game.RequestType.NEW_USER.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, requestType_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -339,6 +496,7 @@ public final class Game {
           .equals(other.getUserName())) return false;
       if (getGuessedNumber()
           != other.getGuessedNumber()) return false;
+      if (requestType_ != other.requestType_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -354,6 +512,8 @@ public final class Game {
       hash = (53 * hash) + getUserName().hashCode();
       hash = (37 * hash) + GUESSEDNUMBER_FIELD_NUMBER;
       hash = (53 * hash) + getGuessedNumber();
+      hash = (37 * hash) + REQUESTTYPE_FIELD_NUMBER;
+      hash = (53 * hash) + requestType_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -491,6 +651,8 @@ public final class Game {
 
         guessedNumber_ = 0;
 
+        requestType_ = 0;
+
         return this;
       }
 
@@ -519,6 +681,7 @@ public final class Game {
         com.slimanigames.stubs.Game.request result = new com.slimanigames.stubs.Game.request(this);
         result.userName_ = userName_;
         result.guessedNumber_ = guessedNumber_;
+        result.requestType_ = requestType_;
         onBuilt();
         return result;
       }
@@ -573,6 +736,9 @@ public final class Game {
         }
         if (other.getGuessedNumber() != 0) {
           setGuessedNumber(other.getGuessedNumber());
+        }
+        if (other.requestType_ != 0) {
+          setRequestTypeValue(other.getRequestTypeValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -705,6 +871,58 @@ public final class Game {
       public Builder clearGuessedNumber() {
         
         guessedNumber_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int requestType_ = 0;
+      /**
+       * <code>.RequestType requestType = 3;</code>
+       * @return The enum numeric value on the wire for requestType.
+       */
+      public int getRequestTypeValue() {
+        return requestType_;
+      }
+      /**
+       * <code>.RequestType requestType = 3;</code>
+       * @param value The enum numeric value on the wire for requestType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRequestTypeValue(int value) {
+        requestType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.RequestType requestType = 3;</code>
+       * @return The requestType.
+       */
+      public com.slimanigames.stubs.Game.RequestType getRequestType() {
+        @SuppressWarnings("deprecation")
+        com.slimanigames.stubs.Game.RequestType result = com.slimanigames.stubs.Game.RequestType.valueOf(requestType_);
+        return result == null ? com.slimanigames.stubs.Game.RequestType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.RequestType requestType = 3;</code>
+       * @param value The requestType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRequestType(com.slimanigames.stubs.Game.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        requestType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.RequestType requestType = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRequestType() {
+        
+        requestType_ = 0;
         onChanged();
         return this;
       }
@@ -951,7 +1169,7 @@ public final class Game {
       if (!getServerResponseBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, serverResponse_);
       }
-      if (responseType_ != com.slimanigames.stubs.Game.ResponseType.YOU_WIN.getNumber()) {
+      if (responseType_ != com.slimanigames.stubs.Game.ResponseType.WELCOME.getNumber()) {
         output.writeEnum(2, responseType_);
       }
       unknownFields.writeTo(output);
@@ -966,7 +1184,7 @@ public final class Game {
       if (!getServerResponseBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, serverResponse_);
       }
-      if (responseType_ != com.slimanigames.stubs.Game.ResponseType.YOU_WIN.getNumber()) {
+      if (responseType_ != com.slimanigames.stubs.Game.ResponseType.WELCOME.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, responseType_);
       }
@@ -1432,6 +1650,424 @@ public final class Game {
 
   }
 
+  public interface EmptyOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Empty)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code Empty}
+   */
+  public  static final class Empty extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Empty)
+      EmptyOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Empty.newBuilder() to construct.
+    private Empty(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Empty() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Empty();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Empty(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.slimanigames.stubs.Game.internal_static_Empty_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.slimanigames.stubs.Game.internal_static_Empty_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.slimanigames.stubs.Game.Empty.class, com.slimanigames.stubs.Game.Empty.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.slimanigames.stubs.Game.Empty)) {
+        return super.equals(obj);
+      }
+      com.slimanigames.stubs.Game.Empty other = (com.slimanigames.stubs.Game.Empty) obj;
+
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.slimanigames.stubs.Game.Empty parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.slimanigames.stubs.Game.Empty prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Empty}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Empty)
+        com.slimanigames.stubs.Game.EmptyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.slimanigames.stubs.Game.internal_static_Empty_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.slimanigames.stubs.Game.internal_static_Empty_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.slimanigames.stubs.Game.Empty.class, com.slimanigames.stubs.Game.Empty.Builder.class);
+      }
+
+      // Construct using com.slimanigames.stubs.Game.Empty.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.slimanigames.stubs.Game.internal_static_Empty_descriptor;
+      }
+
+      @java.lang.Override
+      public com.slimanigames.stubs.Game.Empty getDefaultInstanceForType() {
+        return com.slimanigames.stubs.Game.Empty.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.slimanigames.stubs.Game.Empty build() {
+        com.slimanigames.stubs.Game.Empty result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.slimanigames.stubs.Game.Empty buildPartial() {
+        com.slimanigames.stubs.Game.Empty result = new com.slimanigames.stubs.Game.Empty(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.slimanigames.stubs.Game.Empty) {
+          return mergeFrom((com.slimanigames.stubs.Game.Empty)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.slimanigames.stubs.Game.Empty other) {
+        if (other == com.slimanigames.stubs.Game.Empty.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.slimanigames.stubs.Game.Empty parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.slimanigames.stubs.Game.Empty) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Empty)
+    }
+
+    // @@protoc_insertion_point(class_scope:Empty)
+    private static final com.slimanigames.stubs.Game.Empty DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.slimanigames.stubs.Game.Empty();
+    }
+
+    public static com.slimanigames.stubs.Game.Empty getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Empty>
+        PARSER = new com.google.protobuf.AbstractParser<Empty>() {
+      @java.lang.Override
+      public Empty parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Empty(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Empty> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Empty> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.slimanigames.stubs.Game.Empty getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_request_descriptor;
   private static final 
@@ -1442,6 +2078,11 @@ public final class Game {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_response_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Empty_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Empty_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1451,14 +2092,17 @@ public final class Game {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\ngame.proto\"2\n\007request\022\020\n\010userName\030\001 \001(" +
-      "\t\022\025\n\rguessedNumber\030\002 \001(\005\"G\n\010response\022\026\n\016" +
-      "serverResponse\030\001 \001(\t\022#\n\014responseType\030\002 \001" +
-      "(\0162\r.ResponseType*H\n\014ResponseType\022\013\n\007YOU" +
-      "_WIN\020\000\022\020\n\014GAME_IS_OVER\020\001\022\031\n\025YOU_MISSED_T" +
-      "HE_NUMBER\020\00223\n\013GameService\022$\n\007session\022\010." +
-      "request\032\t.response\"\000(\0010\001B\030\n\026com.slimanig" +
-      "ames.stubsb\006proto3"
+      "\n\ngame.proto\"U\n\007request\022\020\n\010userName\030\001 \001(" +
+      "\t\022\025\n\rguessedNumber\030\002 \001(\005\022!\n\013requestType\030" +
+      "\003 \001(\0162\014.RequestType\"G\n\010response\022\026\n\016serve" +
+      "rResponse\030\001 \001(\t\022#\n\014responseType\030\002 \001(\0162\r." +
+      "ResponseType\"\007\n\005Empty*0\n\013RequestType\022\014\n\010" +
+      "NEW_USER\020\000\022\023\n\017GUESSING_NUMBER\020\001*U\n\014Respo" +
+      "nseType\022\013\n\007WELCOME\020\000\022\020\n\014GAME_IS_OVER\020\001\022\031" +
+      "\n\025YOU_MISSED_THE_NUMBER\020\002\022\013\n\007YOU_WIN\020\0032K" +
+      "\n\013GameService\022\"\n\007session\022\010.request\032\t.res" +
+      "ponse(\0010\001\022\030\n\006blabla\022\006.Empty\032\006.EmptyB\030\n\026c" +
+      "om.slimanigames.stubsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1469,13 +2113,19 @@ public final class Game {
     internal_static_request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_request_descriptor,
-        new java.lang.String[] { "UserName", "GuessedNumber", });
+        new java.lang.String[] { "UserName", "GuessedNumber", "RequestType", });
     internal_static_response_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_response_descriptor,
         new java.lang.String[] { "ServerResponse", "ResponseType", });
+    internal_static_Empty_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_Empty_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Empty_descriptor,
+        new java.lang.String[] { });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

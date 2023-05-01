@@ -23,55 +23,62 @@ public class GameService extends GameServiceGrpc.GameServiceImplBase {
             public void onNext(Game.request request) {
                 String userName = request.getUserName();
                 int guessedNumber = request.getGuessedNumber();
+                Game.RequestType requestType = request.getRequestType();
 
-                // Check if the request sender is in the userList
-                if(!userList.containsKey(request.getUserName())){
+                // Check if the user is new
+                if(!userList.containsKey(userName) || requestType == Game.RequestType.NEW_USER){
                     userList.put(userName, responseObserver);
                     System.out.println("|New user just joined| Name : " + userName);
+                    // Respond to user
+                    Game.response response = Game.response.newBuilder()
+                            .setServerResponse("Welcome to Guess The Number game\n Try to guess a number from 0 to 1000")
+                            .setResponseType(Game.ResponseType.WELCOME)
+                            .build();
+                    responseObserver.onNext(response);
                 }
+                else {
+                    // Check if guessedNumber correct
+                    if (number == guessedNumber) {
+                        // Change game status
+                        isGameOver = true;
 
-                // Check if guessedNumber correct
-                if(number == guessedNumber){
-                    // Change game status
-                    isGameOver = true;
+                        // Respond to the winner
+                        Game.response response = Game.response.newBuilder()
+                                .setServerResponse("Congrats! You win the game.")
+                                .setResponseType(Game.ResponseType.YOU_WIN)
+                                .build();
+                        responseObserver.onNext(response);
 
-                    // Respond to the winner
-                    Game.response response = Game.response.newBuilder()
-                            .setServerResponse("Congrats! You win the game.")
-                            .setResponseType(Game.ResponseType.YOU_WIN)
-                            .build();
-                    responseObserver.onNext(response);
+                        // Respond to the rest of users
+                        userList.forEach((user, streamObserver) -> {
+                            if (!userName.equals(user)) {
+                                String serverResponse = "The game is over. The winner is " + userName;
+                                Game.response response1 = Game.response.newBuilder()
+                                        .setServerResponse(serverResponse)
+                                        .setResponseType(Game.ResponseType.GAME_IS_OVER)
+                                        .build();
+                                streamObserver.onNext(response1);
+                            }
+                        });
 
-                    // Respond to the rest of users
-                    userList.forEach((user, streamObserver) -> {
-                        if(!userName.equals(user)){
-                            String serverResponse = "The game is over. The winner is " + userName;
-                            Game.response response1 = Game.response.newBuilder()
-                                    .setServerResponse(serverResponse)
-                                    .setResponseType(Game.ResponseType.GAME_IS_OVER)
-                                    .build();
-                            streamObserver.onNext(response1);
+                        // End the game
+                        onCompleted();
+                    } else {
+                        // Create the response
+                        String serverResponse;
+                        if (number > guessedNumber) {
+                            serverResponse = "The number is higher than " + guessedNumber;
+                        } else {
+                            serverResponse = "The number is lower than " + guessedNumber;
                         }
-                    });
 
-                    // End the game
-                    onCompleted();
-                } else{
-                    // Create the response
-                    String serverResponse;
-                    if(number > guessedNumber){
-                        serverResponse = "The number is higher than " + guessedNumber;
+                        // Send the response
+                        Game.response response = Game.response.newBuilder()
+                                .setServerResponse(serverResponse)
+                                .setResponseType(Game.ResponseType.YOU_MISSED_THE_NUMBER)
+                                .build();
+                        responseObserver.onNext(response);
                     }
-                    else {
-                        serverResponse = "The number is lower than " + guessedNumber;
-                    }
-
-                    // Send the response
-                    Game.response response = Game.response.newBuilder()
-                            .setServerResponse(serverResponse)
-                            .setResponseType(Game.ResponseType.YOU_MISSED_THE_NUMBER)
-                            .build();
-                    responseObserver.onNext(response);
                 }
             }
 

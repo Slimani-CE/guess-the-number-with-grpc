@@ -2,12 +2,13 @@ syntax = "proto3";
 option java_package = "com.slimanigames.stubs";
 
 service GameService{
-  rpc session(stream request) returns(stream response) {}
+  rpc session(stream request) returns(stream response);
 }
 
 message request{
   string userName = 1;
   int32 guessedNumber = 2;
+  RequestType requestType = 3;
 }
 
 message response{
@@ -15,10 +16,16 @@ message response{
   ResponseType responseType = 2;
 }
 
-enum ResponseType{
-  YOU_WIN = 0;
-  GAME_IS_OVER = 1;
-  YOU_MISSED_THE_NUMBER = 2;
+enum RequestType{
+  NEW_USER = 0;
+  GUESSING_NUMBER = 1;
 }
 
+enum ResponseType{
+  WELCOME = 0;
+  GAME_IS_OVER = 1;
+  YOU_MISSED_THE_NUMBER = 2;
+  YOU_WIN = 3;
+}
 
+message Empty{}
